@@ -92,6 +92,24 @@ void difficulty()
         window.draw(bar3);
         window.draw(text4);
         if (Mouse::isButtonPressed(Mouse::Left)
+            && IntRect(782, 280, 304, 90)
+                       .contains(Mouse::getPosition(window))) {
+            dif = 1;
+            return;
+        }
+        if (Mouse::isButtonPressed(Mouse::Left)
+            && IntRect(782, 433, 304, 90)
+                       .contains(Mouse::getPosition(window))) {
+            dif = 2;
+            return;
+        }
+        if (Mouse::isButtonPressed(Mouse::Left)
+            && IntRect(782, 583, 304, 90)
+                       .contains(Mouse::getPosition(window))) {
+            dif = 3;
+            return;
+        }
+        if (Mouse::isButtonPressed(Mouse::Left)
             && IntRect(1700, 900, 55, 55)
                        .contains(Mouse::getPosition(window))) {
             this_thread::sleep_for(chrono::milliseconds(80));
@@ -134,6 +152,7 @@ void menu()
         if (Mouse::isButtonPressed(Mouse::Left)
             && IntRect(782, 332, 304, 90)
                        .contains(Mouse::getPosition(window))) {
+            this_thread::sleep_for(chrono::milliseconds(100));
             difficulty();
             if (dif != 0) {
                 return;
