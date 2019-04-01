@@ -1,12 +1,17 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include <chrono>
 #include <iostream>
+#include <thread>
 
 using namespace sf;
 using namespace std;
 
 RenderWindow
         window(VideoMode(1920, 1080), "Tic-Tac-Toe"); //, Style::Fullscreen);
+
+bool xOn = 0;
+int dif = 0;
 
 void difficulty()
 {
@@ -64,10 +69,18 @@ void difficulty()
     text4.setStyle(Text::Bold);
     text4.setFillColor(Color::Black);
     text4.setPosition(1600, 900);
+    Image ximage;
+    ximage.loadFromFile("i1.png");
+    ximage.createMaskFromColor(Color::White);
+    Texture xtexture;
+    xtexture.loadFromImage(ximage);
+    Sprite xsprite;
+    xsprite.setTexture(xtexture);
+    xsprite.setPosition(1700, 900);
     while (1) {
         window.clear(Color::White);
         if (Keyboard::isKeyPressed(Keyboard::Escape)) {
-            exit(0);
+            return;
         }
         window.draw(text);
         window.draw(bar);
@@ -78,6 +91,15 @@ void difficulty()
         window.draw(text3);
         window.draw(bar3);
         window.draw(text4);
+        if (Mouse::isButtonPressed(Mouse::Left)
+            && IntRect(1700, 900, 55, 55)
+                       .contains(Mouse::getPosition(window))) {
+            this_thread::sleep_for(chrono::milliseconds(80));
+            xOn = 1 - xOn;
+        }
+        if (xOn == 1) {
+            window.draw(xsprite);
+        }
         window.display();
     }
 }
@@ -113,6 +135,9 @@ void menu()
             && IntRect(782, 332, 304, 90)
                        .contains(Mouse::getPosition(window))) {
             difficulty();
+            if (dif != 0) {
+                return;
+            }
         }
         if (Mouse::isButtonPressed(Mouse::Left)
             && IntRect(782, 475, 304, 90)
