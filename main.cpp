@@ -1,15 +1,16 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include <algorithm>
 #include <chrono>
 #include <iostream>
 #include <thread>
+#include <vector>
 
 using namespace sf;
 using namespace std;
 
 RenderWindow
         window(VideoMode(1920, 1080), "Tic-Tac-Toe"); //, Style::Fullscreen);
-
 bool xOn = 0;
 int dif = 0;
 
@@ -112,7 +113,7 @@ void difficulty()
         if (Mouse::isButtonPressed(Mouse::Left)
             && IntRect(1700, 900, 55, 55)
                        .contains(Mouse::getPosition(window))) {
-            this_thread::sleep_for(chrono::milliseconds(80));
+            this_thread::sleep_for(chrono::milliseconds(100));
             xOn = 1 - xOn;
         }
         if (xOn == 1) {
@@ -179,7 +180,81 @@ void menu()
 
 int main()
 {
-    menu();
+    // menu();
+    dif = 1;
+    vector<vector<bool>> usr(4, vector<bool>(4, 0)), pc(4, vector<bool>(4, 0));
+    Image pimage;
+    pimage.loadFromFile("pole.png");
+    Texture ptexture;
+    ptexture.loadFromImage(pimage);
+    Sprite pole;
+    pole.setTexture(ptexture);
+    pole.setPosition(460, 35);
+    /*X********************************************************************************************************************************/
+    Image ximage;
+    ximage.loadFromFile("x.png");
+    Texture xtexture;
+    xtexture.loadFromImage(ximage);
+    Sprite x11;
+    x11.setTexture(xtexture);
+    x11.setPosition(505, 70);
+    Sprite x12;
+    x12.setTexture(xtexture);
+    x12.setPosition(835, 70);
+    Sprite x13;
+    x13.setTexture(xtexture);
+    x13.setPosition(1165, 70);
+    Sprite x21;
+    x21.setTexture(xtexture);
+    x21.setPosition(505, 395);
+    Sprite x22;
+    x22.setTexture(xtexture);
+    x22.setPosition(835, 395);
+    Sprite x23;
+    x23.setTexture(xtexture);
+    x23.setPosition(1165, 395);
+    Sprite x31;
+    x31.setTexture(xtexture);
+    x31.setPosition(505, 720);
+    Sprite x32;
+    x32.setTexture(xtexture);
+    x32.setPosition(835, 720);
+    Sprite x33;
+    x33.setTexture(xtexture);
+    x33.setPosition(1165, 720);
+    /*O********************************************************************************************************************************/
+    Image oimage;
+    oimage.loadFromFile("o.png");
+    Texture otexture;
+    otexture.loadFromImage(oimage);
+    Sprite o11;
+    o11.setTexture(otexture);
+    o11.setPosition(503, 72);
+    Sprite o12;
+    o12.setTexture(otexture);
+    o12.setPosition(833, 72);
+    Sprite o13;
+    o13.setTexture(otexture);
+    o13.setPosition(1163, 72);
+    Sprite o21;
+    o21.setTexture(otexture);
+    o21.setPosition(503, 397);
+    Sprite o22;
+    o22.setTexture(otexture);
+    o22.setPosition(833, 397);
+    Sprite o23;
+    o23.setTexture(otexture);
+    o23.setPosition(1163, 397);
+    Sprite o31;
+    o31.setTexture(otexture);
+    o31.setPosition(503, 733);
+    Sprite o32;
+    o32.setTexture(otexture);
+    o32.setPosition(833, 733);
+    Sprite o33;
+    o33.setTexture(otexture);
+    o33.setPosition(1163, 733);
+    /*PROGRAM************************************!!!!!!!!!!!!!!!!!!!!!!!!!!!ON_WORKING!!!!!!!!!!!!!!!!!!!!**********************/
     while (window.isOpen()) {
         Event event;
         while (window.pollEvent(event)) {
@@ -190,6 +265,76 @@ int main()
             }
         }
         window.clear(Color::White);
+        window.draw(pole);
+        if (xOn == 0) {
+            if (dif == 1) {
+                pc[1][1] = 1;
+                if (pc[1][1]) {
+                    window.draw(x11);
+                } else if (usr[1][1]) {
+                    window.draw(o11);
+                }
+                if (pc[1][2]) {
+                    window.draw(x12);
+                } else if (usr[1][2]) {
+                    window.draw(o12);
+                }
+                if (pc[1][3]) {
+                    window.draw(x13);
+                } else if (usr[1][3]) {
+                    window.draw(o13);
+                }
+                if (pc[2][1]) {
+                    window.draw(x21);
+                } else if (usr[2][1]) {
+                    window.draw(o21);
+                }
+                if (pc[2][2]) {
+                    window.draw(x22);
+                } else if (usr[2][2]) {
+                    window.draw(o22);
+                }
+                if (pc[2][3]) {
+                    window.draw(x23);
+                } else if (usr[2][3]) {
+                    window.draw(o23);
+                }
+                if (pc[3][1]) {
+                    window.draw(x31);
+                } else if (usr[3][1]) {
+                    window.draw(o31);
+                }
+                if (pc[3][2]) {
+                    window.draw(x32);
+                } else if (usr[3][2]) {
+                    window.draw(o32);
+                }
+                if (pc[3][3]) {
+                    window.draw(x33);
+                } else if (usr[3][3]) {
+                    window.draw(o33);
+                }
+                window.display();
+                cout << Mouse::getPosition().x << " " << Mouse::getPosition().y
+                     << endl;
+                while (!Mouse::isButtonPressed(Mouse::Left)) {
+                    /**********************************!!!!!!!!!!!!!!!!!!!NEEED_FIX!!!!!!!!!!!!!*************/
+                    if (IntRect(800, 60, 325, 285)
+                                .contains(Mouse::getPosition(window))
+                        && !usr[1][2] && !pc[1][2]) {
+                        this_thread::sleep_for(chrono::milliseconds(100));
+                        usr[1][2] = 1;
+                    }
+                }
+                if (!usr[1][2] && !usr[1][3]) {
+                    pc[1][2] = 1;
+                } else {
+                    pc[2][1] = 1;
+                }
+            }
+        } else {
+        }
+        /*PROGRAM************************************!!!!!!!!!!!!!!!!!!!!!!!!!!!ON_WORKING!!!!!!!!!!!!!!!!!!!!**********************/
         window.display();
     }
     return 0;
