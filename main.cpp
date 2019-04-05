@@ -254,7 +254,6 @@ int main()
     Sprite o33;
     o33.setTexture(otexture);
     o33.setPosition(1163, 733);
-    /*PROGRAM************************************!!!!!!!!!!!!!!!!!!!!!!!!!!!ON_WORKING!!!!!!!!!!!!!!!!!!!!**********************/
     while (window.isOpen()) {
         Event event;
         while (window.pollEvent(event)) {
@@ -380,6 +379,7 @@ int main()
                     cout << Mouse::getPosition().x << " "
                          << Mouse::getPosition().y << endl;
                 }
+                /*PROGRAM************************************!!!!!!!!!!!!!!!!!!!!!!!!!!!ON_WORKING!!!!!!!!!!!!!!!!!!!!**********************/
                 if (!usr[1][2] && !usr[1][3]) {
                     pc[1][2] = 1;
                 } else if (!usr[2][1]) {
