@@ -315,20 +315,74 @@ int main()
                     window.draw(o33);
                 }
                 window.display();
-                cout << Mouse::getPosition().x << " " << Mouse::getPosition().y
-                     << endl;
-                while (!Mouse::isButtonPressed(Mouse::Left)) {
-                    /**********************************!!!!!!!!!!!!!!!!!!!NEEED_FIX!!!!!!!!!!!!!*************/
-                    if (IntRect(800, 60, 325, 285)
-                                .contains(Mouse::getPosition(window))
-                        && !usr[1][2] && !pc[1][2]) {
-                        this_thread::sleep_for(chrono::milliseconds(100));
-                        usr[1][2] = 1;
+                while (1) {
+                    /**********************************FOR_TEST**********************************************/
+                    if (Keyboard::isKeyPressed(Keyboard::Escape)) {
+                        exit(0);
                     }
+                    /**********************************FOR_TEST**********************************************/
+                    if (Mouse::isButtonPressed(Mouse::Left)
+                        && IntRect(800, 60, 325, 285)
+                                   .contains(Mouse::getPosition(window))
+                        && !usr[1][2] && !pc[1][2]) {
+                        usr[1][2] = 1;
+                        break;
+                    }
+                    if (Mouse::isButtonPressed(Mouse::Left)
+                        && IntRect(1140, 60, 325, 285)
+                                   .contains(Mouse::getPosition(window))
+                        && !usr[1][3] && !pc[1][3]) {
+                        usr[1][3] = 1;
+                        break;
+                    }
+                    if (Mouse::isButtonPressed(Mouse::Left)
+                        && IntRect(480, 368, 304, 312)
+                                   .contains(Mouse::getPosition(window))
+                        && !usr[2][1] && !pc[2][1]) {
+                        usr[2][1] = 1;
+                        break;
+                    }
+                    if (Mouse::isButtonPressed(Mouse::Left)
+                        && IntRect(800, 368, 325, 312)
+                                   .contains(Mouse::getPosition(window))
+                        && !usr[2][2] && !pc[2][2]) {
+                        usr[2][2] = 1;
+                        break;
+                    }
+                    if (Mouse::isButtonPressed(Mouse::Left)
+                        && IntRect(1140, 368, 300, 312)
+                                   .contains(Mouse::getPosition(window))
+                        && !usr[2][3] && !pc[2][3]) {
+                        usr[2][3] = 1;
+                        break;
+                    }
+                    if (Mouse::isButtonPressed(Mouse::Left)
+                        && IntRect(480, 702, 305, 315)
+                                   .contains(Mouse::getPosition(window))
+                        && !usr[3][1] && !pc[3][1]) {
+                        usr[3][1] = 1;
+                        break;
+                    }
+                    if (Mouse::isButtonPressed(Mouse::Left)
+                        && IntRect(800, 702, 324, 315)
+                                   .contains(Mouse::getPosition(window))
+                        && !usr[3][2] && !pc[3][2]) {
+                        usr[3][2] = 1;
+                        break;
+                    }
+                    if (Mouse::isButtonPressed(Mouse::Left)
+                        && IntRect(1144, 702, 295, 315)
+                                   .contains(Mouse::getPosition(window))
+                        && !usr[3][3] && !pc[3][3]) {
+                        usr[3][3] = 1;
+                        break;
+                    }
+                    cout << Mouse::getPosition().x << " "
+                         << Mouse::getPosition().y << endl;
                 }
                 if (!usr[1][2] && !usr[1][3]) {
                     pc[1][2] = 1;
-                } else {
+                } else if (!usr[2][1]) {
                     pc[2][1] = 1;
                 }
             }
