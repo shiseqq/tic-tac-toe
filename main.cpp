@@ -13,7 +13,7 @@ using namespace std;
 RenderWindow window(VideoMode(1920, 1080), "Tic-Tac-Toe", Style::Fullscreen);
 bool xOn = 0;
 vector<vector<char>> m(3, vector<char>(3, ' '));
-int iks, igr;
+int iks, igr, whowin;
 
 void menu()
 {
@@ -128,6 +128,42 @@ char check(void)
 void get_computer_move(void)
 {
     int i = 0, j = 0;
+
+    for (i = 0; i < 3; i++) {
+        if (m[i][0] == m[i][1] && m[i][2] == ' ' && m[i][0] != ' ') {
+            if (xOn) {
+                m[i][2] = 'O';
+            } else
+                m[i][2] = 'X';
+            return;
+        }
+    }
+
+    for (i = 0; i < 3; i++) {
+        if (m[0][i] == m[1][i] && m[2][i] == ' ' && m[0][i] != ' ') {
+            if (xOn) {
+                m[2][i] = 'O';
+            } else
+                m[2][i] = 'X';
+            return;
+        }
+    }
+
+    if (m[0][0] == m[1][1] && m[2][2] == ' ' && m[0][0] != ' ') {
+        if (xOn) {
+            m[2][2] = 'O';
+        } else
+            m[2][2] = 'X';
+        return;
+    }
+    if (m[0][2] == m[1][1] && m[2][0] == ' ' && m[0][2] != ' ') {
+        if (xOn) {
+            m[2][0] = 'O';
+        } else
+            m[2][0] = 'X';
+        return;
+    }
+
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
             if (m[i][j] == ' ')
@@ -266,8 +302,6 @@ void matrix()
     }
 }
 
-int whowin;
-
 void fin()
 {
     Font font;
@@ -275,7 +309,7 @@ void fin()
     Text t1("LOSE", font, 100);
     t1.setStyle(Text::Bold);
     t1.setFillColor(Color::Black);
-    t1.setPosition(860, 300);
+    t1.setPosition(858, 300);
     Text t2("WIN", font, 100);
     t2.setStyle(Text::Bold);
     t2.setFillColor(Color::Black);
@@ -284,6 +318,21 @@ void fin()
     t3.setStyle(Text::Bold);
     t3.setFillColor(Color::Black);
     t3.setPosition(900, 300);
+    RectangleShape bar(Vector2f(300, 80));
+    bar.setFillColor(Color::Green);
+    bar.setPosition(840, 500);
+    RectangleShape bar1(Vector2f(300, 80));
+    bar1.setFillColor(Color::Green);
+    bar1.setPosition(840, 650);
+    RectangleShape bar2(Vector2f(300, 80));
+    bar2.setFillColor(Color::Green);
+    bar2.setPosition(840, 800);
+    Text text2("Menu", font, 30);
+    Text text3("Exit", font, 30);
+    text2.setFillColor(Color::White);
+    text3.setFillColor(Color::White);
+    text2.setPosition(950, 520);
+    text3.setPosition(955, 670);
     while (window.isOpen()) {
         if (Keyboard::isKeyPressed(Keyboard::Escape)) {
             exit(0);
@@ -295,6 +344,21 @@ void fin()
             window.draw(t2);
         } else
             window.draw(t3);
+        if (Mouse::isButtonPressed(Mouse::Left)
+            && IntRect(840, 500, 300, 80)
+                       .contains(Mouse::getPosition(window))) {
+            system("/home/shise/myProj/tic-tac/tic-tac-toe.exe");
+            exit(0);
+        }
+        if (Mouse::isButtonPressed(Mouse::Left)
+            && IntRect(840, 650, 300, 80)
+                       .contains(Mouse::getPosition(window))) {
+            exit(0);
+        }
+        window.draw(bar);
+        window.draw(bar1);
+        window.draw(text2);
+        window.draw(text3);
         window.display();
     }
 }
@@ -380,9 +444,18 @@ int main()
                     && m[2][2] == ' ') {
                     m[2][2] = 'O';
                     break;
-                    cout << Mouse::getPosition().x << " "
-                         << Mouse::getPosition().y << endl;
                 }
+            }
+            matrix();
+            if (check() != ' ') {
+                this_thread::sleep_for(chrono::milliseconds(500));
+                if (check() == 'X') {
+                    whowin = 1;
+                } else if (check() == 'O') {
+                    whowin = 2;
+                } else
+                    whowin = 3;
+                fin();
             }
             get_computer_move();
             this_thread::sleep_for(chrono::milliseconds(100));
@@ -461,9 +534,18 @@ int main()
                     && m[2][2] == ' ') {
                     m[2][2] = 'X';
                     break;
-                    cout << Mouse::getPosition().x << " "
-                         << Mouse::getPosition().y << endl;
                 }
+            }
+            matrix();
+            if (check() != ' ') {
+                this_thread::sleep_for(chrono::milliseconds(500));
+                if (check() == 'O') {
+                    whowin = 1;
+                } else if (check() == 'X') {
+                    whowin = 2;
+                } else
+                    whowin = 3;
+                fin();
             }
             get_computer_move();
             this_thread::sleep_for(chrono::milliseconds(100));
